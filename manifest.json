@@ -1,0 +1,11 @@
+{
+  "name": "Mock Agent",
+  "description": "A simple agent for testing the job lifecycle. It logs messages, sleeps for a configured duration, and creates dummy artifacts.",
+  "parameters": {
+    "sleep_duration": {
+      "type": "integer",
+      "description": "How long the agent should 'work' in seconds.",
+      "default": 10
+    }
+  }
+}
