@@ -4,12 +4,16 @@ import argparse
 import json
 import os
 
-def train(config_path: str):
+def train(config_path: str, output_path: str):
     """
     Simulates a training run.
     """
     print("--- Mock Agent Training Run Initializing ---")
     
+    # Ensure the output directory exists
+    os.makedirs(output_path, exist_ok=True)
+    print(f"Artifacts and logs will be saved to: {output_path}")
+
     # Load configuration
     try:
         with open(config_path, 'r') as f:
@@ -25,22 +29,22 @@ def train(config_path: str):
         print(f"Step {i+1}/{sleep_duration}: Processing data...")
         time.sleep(1)
 
-    # Simulate creating an artifact
+    # Simulate creating an artifact in the specified output path
     try:
-        artifact_path = os.path.join(os.getcwd(), "model.zip")
-        with open(artifact_path, "w") as f:
+        artifact_file_path = os.path.join(output_path, "model.zip")
+        with open(artifact_file_path, "w") as f:
             f.write("This is a dummy model artifact.")
-        print(f"Dummy artifact created at: {artifact_path}")
+        print(f"Dummy artifact created at: {artifact_file_path}")
     except Exception as e:
         print(f"Error creating dummy artifact: {e}")
 
-    # Simulate writing metrics
+    # Simulate writing metrics in the specified output path
     try:
-        metrics_path = os.path.join(os.getcwd(), "metrics.log")
-        with open(metrics_path, "w") as f:
+        metrics_file_path = os.path.join(output_path, "metrics.log")
+        with open(metrics_file_path, "w") as f:
             f.write("pnl,10.5\n")
             f.write("sharpe,0.8\n")
-        print(f"Dummy metrics written to: {metrics_path}")
+        print(f"Dummy metrics written to: {metrics_file_path}")
     except Exception as e:
         print(f"Error writing dummy metrics: {e}")
 
@@ -54,6 +58,7 @@ if __name__ == "__main__":
     # --- Train command ---
     train_parser = subparsers.add_parser("train", help="Simulate a training run")
     train_parser.add_argument("--config", required=True, help="Path to the configuration JSON file.")
+    train_parser.add_argument("--output-path", required=True, help="Directory to save artifacts and logs.")
 
     # --- Test command (placeholder) ---
     test_parser = subparsers.add_parser("test", help="Simulate a testing run")
@@ -61,6 +66,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.command == "train":
-        train(args.config)
+        train(args.config, args.output_path)
     elif args.command == "test":
         print("Mock test command executed.")
